@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import InputMask from 'react-input-mask';
 import './styles.css';
@@ -18,10 +18,14 @@ function App() {
 
     try {
       const response = await api.get(`${numericInput}/json`);
-      setCep(response.data);
+      if (response.data.erro) {
+        alert('CEP INVÁLIDO!');
+      } else {
+        setCep(response.data);
+      }
       setInput('');
     } catch {
-      alert('CEP INVÁLIDO!');
+      alert('Ocorreu um erro na consulta. Tente novamente mais tarde.');
       setInput('');
     }
   }
