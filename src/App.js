@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {FiSearch} from 'react-icons/fi';
 import './styles.css';
 import api from './services/api';
+import InputMask from 'react-input-mask';
 
 function App() {
 
@@ -15,6 +16,9 @@ function App() {
       alert("Preencha o CEP!")
       return;
     }
+
+    // Remove non-numeric characters from the input
+    const numericInput = input.replace(/\D/g, '');
 
     try{
       const response = await api.get(`${input}/json`);
@@ -32,12 +36,14 @@ function App() {
       <h1 className="title">Buscador de CEP</h1>
 
       <div className="containerInput">
-        <input 
+      <InputMask
+        mask="99999-999"
+        maskChar=""
         type="text"
         placeholder="Digite o CEP..."
         value={input}
-        onChange={ (e) => setInput(e.target.value) }
-        />
+        onChange={(e) => setInput(e.target.value)}
+      />
 
         <button className="buttonSearch" onClick={handleSearch}>
           <FiSearch size={25} color='#FFF'/>
